@@ -4,6 +4,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
+import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,12 +33,13 @@ public class RobotContainer {
                                                             .scaleTranslation(0.5)
                                                             .allianceRelativeControl(true);
 
+
   SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverXbox::getRightX,
                                                                                               driverXbox::getRightY)
                                                             .headingWhile(true);
 
                                                             SwerveInputStream driveRobotOriented = driveAngularVelocity.copy().robotRelative(true)
-                                                             .allianceRelativeControl(true);
+                                                             .allianceRelativeControl(false);
 
 
                                                             SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
@@ -48,25 +50,25 @@ public class RobotContainer {
                                                                     .deadband(SwerveConstants.deadband)
                                                                     .scaleTranslation(0.8)
                                                                     .allianceRelativeControl(true);
-//   SwerveInputStream driveDirectAngleKeyboard     = driveAngularVelocityKeyboard.copy()
-//                                                                                .withControllerHeadingAxis(() ->
-//                                                                                                               Math.sin(
-//                                                                                                                   driverXbox.getRawAxis(
-//                                                                                                                       2) *
-//                                                                                                                   Math.PI) *
-//                                                                                                               (Math.PI *
-//                                                                                                                2),
-//                                                                                                           () ->
-//                                                                                                               Math.cos(
-//                                                                                                                   driverXbox.getRawAxis(
-//                                                                                                                       2) *
-//                                                                                                                   Math.PI) *
-//                                                                                                               (Math.PI *
-//                                                                                                                2))
-//                                                                                .headingWhile(true)
-//                                                                                .translationHeadingOffset(true)
-//                                                                                .translationHeadingOffset(Rotation2d.fromDegrees(
-//                                                                                    0));
+  SwerveInputStream driveDirectAngleKeyboard     = driveAngularVelocityKeyboard.copy()
+                                                                               .withControllerHeadingAxis(() ->
+                                                                                                              Math.sin(
+                                                                                                                  driverXbox.getRawAxis(
+                                                                                                                      2) *
+                                                                                                                  Math.PI) *
+                                                                                                              (Math.PI *
+                                                                                                               2),
+                                                                                                          () ->
+                                                                                                              Math.cos(
+                                                                                                                  driverXbox.getRawAxis(
+                                                                                                                      2) *
+                                                                                                                  Math.PI) *
+                                                                                                              (Math.PI *
+                                                                                                               2))
+                                                                               .headingWhile(true)
+                                                                               .translationHeadingOffset(true)
+                                                                               .translationHeadingOffset(Rotation2d.fromDegrees(
+                                                                                   0));
 
   Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
